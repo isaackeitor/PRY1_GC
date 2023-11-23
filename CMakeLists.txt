@@ -1,34 +1,30 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.26.4)
+project(SR VERSION 1.0)
 
-# set the project name
-project(SR)
-
-# specify the C++ standard
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_BUILD_TYPE Release)
+add_executable(${PROJECT_NAME}
+  src/main.cpp
+)
 
-# set the profiling flag
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# find all .cpp files in the src directory
-file(GLOB SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
-
-# add the executable
-add_executable(SR ${SOURCE_FILES})
-
-# find and include SDL2, SDL_image, and GLM
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-find_package(glm REQUIRED)
-include_directories(${GLM_INCLUDE_DIRS})
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
+  "${PROJECT_SOURCE_DIR}/src/*.cpp"
+)
 
-# threading
+target_include_directories(${PROJECT_NAME}
+  PRIVATE ${PROJECT_SOURCE_DIR}/include
+  PUBLIC ${PROJECT_SOURCE_DIR}/src
+  PUBLIC /opt/homebrew/Cellar/sdl2/2.28.1/include
+  PUBLIC /opt/homebrew/Cellar/glm/0.9.9.8/include
+)
 
-find_package(TBB REQUIRED)
-target_link_libraries(${PROJECT_NAME} TBB::tbb)
-
-# link libraries
-target_link_libraries(SR ${SDL2_LIBRARIES} SDL2_image ${GLM_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}
+  ${SDL2_LIBRARIES}
+)
