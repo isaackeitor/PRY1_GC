@@ -19,6 +19,7 @@ Este proyecto es una simulación de un sistema solar utilizando un software rend
 ## Visualización del Proyecto
 
 Aquí hay una [fotografía del sistema solar](results/solarsystem.png) generado por la simulación.
+![p1](results/solarsystem.png)
 
 ## Video Demostrativo
 
